@@ -10,8 +10,9 @@ interface ICartItem {
 // Define the Cart Interface
 interface ICart extends Document {
   userId: mongoose.Schema.Types.ObjectId;
-  Items: ICartItem[];
+  items: ICartItem[];
   totalPrice: number;
+  status: "active" | "completed";
 }
 
 // Cart Items Schema
@@ -28,11 +29,12 @@ const cartItemsSchema: Schema<ICartItem> = new mongoose.Schema({
 // Cart Schema
 const cartSchema: Schema<ICart> = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  Items: [cartItemsSchema],
+  items: [cartItemsSchema],
   totalPrice: { type: Number, default: 0 },
+  status: { type: String, enum: ["active", "completed"], default: "active" },
 });
 
 // Cart Model
-const cartModel: Model<ICart> = mongoose.model < ICart > ("Cart", cartSchema);
+const cartModel: Model<ICart> = mongoose.model<ICart>("Cart", cartSchema);
 
 export default cartModel;

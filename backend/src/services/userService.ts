@@ -27,14 +27,11 @@ export async function login({ email, password }: LoginInput) {
     }
 
     // Login successful, return user data
-    const token = jwt.sign(
-      {
-        email,
-        firstName: findUser.firstName,
-        lastName: findUser.lastName,
-      },
-      process.env.JWT_SECRET_KEY || ""
-    );
+    const token = generateJWT({
+      email,
+      firstName: findUser.firstName,
+      lastName: findUser.lastName,
+    });
     return { data: token, statusCode: 200 };
   } catch (error) {
     // Log the error for debugging
@@ -75,14 +72,11 @@ export async function register({
       password: hashedPassword,
     });
     await newUser.save();
-    const token = jwt.sign(
-      {
-        email,
-        firstName,
-        lastName,
-      },
-      process.env.JWT_SECRET_KEY || ""
-    );
+    const token = generateJWT({
+      email,
+      firstName,
+      lastName,
+    });
     return { data: token, statusCode: 200 };
   } catch (error) {
     // Log the error for debugging
@@ -90,3 +84,9 @@ export async function register({
     throw new Error("Something went wrong during registration!");
   }
 }
+
+const generateJWT = (data: any) => {
+  return jwt.sign(data, process.env.JWT_SECRET_KEY || "", {
+    expiresIn: "24h",
+  });
+};

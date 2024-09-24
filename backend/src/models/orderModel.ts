@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define the Order Item Interface
-interface IOrderItem {
+export interface IOrderItem {
   productName: string;
   productImage: string;
   productPrice: number;

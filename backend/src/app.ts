@@ -5,6 +5,7 @@ import userController from "./controllers/userController";
 import productController from "./controllers/productController";
 import dotenv from "dotenv";
 import { insertDumyProduct } from "./services/productService";
+import cartConroller from "./controllers/cartController";
 dotenv.config();
 
 const app = express();
@@ -22,6 +23,7 @@ mongoose
 insertDumyProduct();
 app.use(userController);
 app.use(productController);
+app.use("/cart", cartConroller);
 
 app.listen(3001, () => {
   console.log("Server working successfully on port 3001");
