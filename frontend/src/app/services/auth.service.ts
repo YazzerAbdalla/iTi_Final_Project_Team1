@@ -37,6 +37,7 @@ export class AuthService {
     });
   }
   logout() {
+    this.email = '';
     localStorage.removeItem('authorization');
   }
 }

@@ -33,6 +33,7 @@ export class LoginComponent {
         (data) => {
           this.data = data.data;
           localStorage.setItem('authorization', `Bearer ${this.data}`);
+          this.authService.email = this.email;
           this.router.navigate(['/']);
         },
         (error) => {
