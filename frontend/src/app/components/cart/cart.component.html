@@ -1,0 +1,42 @@
+<div class="min-h-[80vh] flex flex-col items-center justify-center bg-gray-100">
+  <h2 class="text-2xl font-bold text-center text-green-500 mb-6">Your Cart</h2>
+
+  @if(cartItems.length === 0 ){
+  <div class="text-center text-gray-600">
+    <p>Your cart is empty!</p>
+  </div>
+  } @for(item of cartItems ; track $index){
+  <div class="bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-md">
+    <div class="flex justify-between items-center">
+      <div>
+        <h3 class="font-bold text-lg">{{ item.name }}</h3>
+        <p class="text-gray-600">
+          Price: ${{ item.price }} x {{ item.quantity }}
+        </p>
+      </div>
+      <button
+        (click)="removeItem(item.id)"
+        class="text-red-500 hover:text-red-700"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+
+  } @if ( cartItems.length > 0 ) {
+  <div class="mt-4">
+    <h3 class="font-bold text-lg">Total: ${{ totalAmount }}</h3>
+    <button
+      (click)="clearCart()"
+      class="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+    >
+      Clear Cart
+    </button>
+  </div>
+  }
+  <div class="mt-6">
+    <a routerLink="/order" class="text-green-500 hover:underline">
+      View your order history
+    </a>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<section class="container mx-auto">
+  <!-- Hero Section -->
+  <section
+    class="hero-section flex flex-col md:flex-row items-center justify-between py-16 px-4"
+  >
+    <!-- Text Section -->
+    <div class="hero-text md:w-1/2 space-y-4 text-center md:text-left">
+      <h1 class="text-4xl md:text-6xl font-bold text-green-500">
+        Welcome to E-comm
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600">
+        Discover the latest models and best deals on our top-quality products.
+      </p>
+      <button
+        class="mt-6 bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600"
+      >
+        Shop Now
+      </button>
+    </div>
+
+    <!-- Image Section -->
+    <div class="hero-image md:w-1/2 mt-8 md:mt-0">
+      <img
+        src="https://via.placeholder.com/400x400"
+        alt="Product Model"
+        class="w-full h-auto object-cover"
+      />
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section py-8 px-4">
+    <!-- Sort and Filter Options -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold">Our Products</h2>
+      <div class="flex gap-4">
+        <button
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+        >
+          Sort by Price
+        </button>
+        <button
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+        >
+          Sort by Popularity
+        </button>
+        <button
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+        >
+          Filter
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Product Card -->
+      <div class="product-card border rounded-lg p-4 shadow-md">
+        <img
+          src="https://via.placeholder.com/200x200"
+          alt="Product"
+          class="w-full h-auto object-cover"
+        />
+        <h3 class="text-lg font-bold mt-4">Product Name</h3>
+        <p class="text-gray-600">Product Description</p>
+        <p class="font-bold text-green-500">$99.99</p>
+        <button
+          class="bg-green-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-green-600"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Repeat the Product Card for more products -->
+      <div class="product-card border rounded-lg p-4 shadow-md">
+        <img
+          src="https://via.placeholder.com/200x200"
+          alt="Product"
+          class="w-full h-auto object-cover"
+        />
+        <h3 class="text-lg font-bold mt-4">Product Name</h3>
+        <p class="text-gray-600">Product Description</p>
+        <p class="font-bold text-green-500">$99.99</p>
+        <button
+          class="bg-green-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-green-600"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Add more products as necessary -->
+    </div>
+  </section>
+</section>
