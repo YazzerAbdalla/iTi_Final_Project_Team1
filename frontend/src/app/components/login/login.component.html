@@ -3,6 +3,19 @@
     <!-- Login Form -->
     <h2 class="text-2xl font-bold text-center text-green-500 mb-6">Login</h2>
 
+    @if(error){
+    <div
+      class="mb-4 p-4 relative bg-red-100 text-red-700 border border-red-300 rounded"
+    >
+      <button
+        (click)="error = ''"
+        class="text-gray-300 font-bold absolute right-2 top-1"
+      >
+        x
+      </button>
+      {{ error }}
+    </div>
+    }
     <form (submit)="onSubmit()">
       <!-- Email Input -->
       <div class="mb-4">
