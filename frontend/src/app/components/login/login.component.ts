@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { errorContext } from 'rxjs/internal/util/errorContext';
 
 @Component({
   selector: 'app-login',
@@ -15,29 +14,32 @@ import { errorContext } from 'rxjs/internal/util/errorContext';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  error!: string;
-  data!: string;
+  error: string | null = null; // To handle errors
+  isLoading: boolean = false; // For loading state
+
   constructor(private router: Router, private authService: AuthService) {}
 
   onSubmit() {
-    // You can add logic for login here, like calling an authentication service.
-    // Redirect to home or another page upon successful login
-    // For now, this is just a placeholder
-    // Example: this.authService.login(this.email, this.password);
+    // Reset error state and set loading to true
+    this.error = null;
+    this.isLoading = true;
+
+    // Call the login method in AuthService
     this.authService
       .login({
         email: this.email,
         password: this.password,
       })
       .subscribe(
-        (data) => {
-          this.data = data.data;
-          localStorage.setItem('authorization', `Bearer ${this.data}`);
-          this.authService.email = this.email;
-          this.router.navigate(['/']);
+        (response) => {
+          // On success, handle response and navigate
+          this.isLoading = false;
+          this.router.navigate(['/']); // Navigate to home or another page after login
         },
         (error) => {
-          this.error = error.error.data;
+          // Handle error, display message to the user
+          this.isLoading = false;
+          this.error = error.error.message || 'Login failed. Please try again.'; // Show a user-friendly error message
         }
       );
   }

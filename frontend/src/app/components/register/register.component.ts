@@ -9,22 +9,31 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
   firstName: string = '';
   lastName: string = '';
   email: string = '';
   password: string = '';
-  error!: string;
+  error: string | null = null; // Error message handling
+  isLoading: boolean = false; // Loading state
 
   constructor(private router: Router, private authService: AuthService) {}
 
   onSubmit() {
-    // You can add logic for registration here, like calling a registration service.
-    // Redirect to login page upon successful registration
-    // For now, this is just a placeholder
-    // Example: this.authService.register(this.firstName, this.lastName, this.email, this.password);
+    // Reset error state and start loading
+    this.error = null;
+    this.isLoading = true;
+
+    // Basic validation check
+    if (!this.firstName || !this.lastName || !this.email || !this.password) {
+      this.error = 'All fields are required';
+      this.isLoading = false;
+      return;
+    }
+
+    // Call the registration method from AuthService
     this.authService
       .register({
         email: this.email,
@@ -33,13 +42,16 @@ export class RegisterComponent {
         password: this.password,
       })
       .subscribe(
-        (data) => {
-          localStorage.setItem('authorization', `Bearer ${data.data}`);
-          this.authService.email = this.email;
+        (response) => {
+          // On success, navigate to home or login
+          this.isLoading = false;
           this.router.navigate(['/']);
         },
         (error) => {
-          this.error = error.error.data;
+          // On error, show the error message
+          this.isLoading = false;
+          this.error =
+            error.error.message || 'Registration failed. Please try again.';
         }
       );
   }

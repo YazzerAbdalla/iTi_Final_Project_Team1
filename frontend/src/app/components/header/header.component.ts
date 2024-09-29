@@ -1,20 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   cartItemCount = 0;
   isMobileMenuOpen = false;
-  constructor(public router: Router) {}
-  ngOnInit(): void {}
+  userEmail: string | null = null;
+
+  constructor(
+    public router: Router,
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef // Can be removed if not required
+  ) {}
+
+  ngOnInit(): void {
+    // Subscribe to user email from the AuthService
+    this.authService.getUserEmail().subscribe((email) => {
+      this.userEmail = email;
+      // Only trigger change detection manually if necessary
+      // this.cdr.detectChanges();  // Optional: use if needed for manual change detection
+    });
+  }
+
   handleMobileMenuOpen() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    // userEmail will be set to null automatically since we're using the AuthService's observable
   }
 }
