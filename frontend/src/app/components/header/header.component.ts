@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service'; // Import CartService
 
 @Component({
   selector: 'app-header',
@@ -11,13 +12,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  cartItemCount = 0;
+  cartItemCount = 0; // Variable to hold the count of items in the cart
   isMobileMenuOpen = false;
   userEmail: string | null = null;
 
   constructor(
     public router: Router,
     private authService: AuthService,
+    private cartService: CartService, // Inject CartService
     private cdr: ChangeDetectorRef // Can be removed if not required
   ) {}
 
@@ -27,6 +29,12 @@ export class HeaderComponent implements OnInit {
       this.userEmail = email;
       // Only trigger change detection manually if necessary
       // this.cdr.detectChanges();  // Optional: use if needed for manual change detection
+    });
+
+    // Subscribe to cart length from the CartService
+    this.cartService.getCartLength().subscribe((length) => {
+      this.cartItemCount = length; // Update cart item count
+      // this.cdr.detectChanges(); // Optional: use if needed for manual change detection
     });
   }
 
