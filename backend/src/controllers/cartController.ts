@@ -25,6 +25,20 @@ router.get("/", validateJWT, async (req: ExtendedRequest, res: Response) => {
   }
 });
 
+// clear cart for user
+router.delete("/", validateJWT, async (req: ExtendedRequest, res: Response) => {
+  try {
+    const userId = req.user;
+    const { statusCode, data } = await clearCartForUser({
+      userId,
+    });
+    res.status(statusCode).json({ data });
+  } catch (error: any) {
+    console.log("/cart DELETE error", error.message);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+});
+
 router.post(
   "/item",
   validateJWT,
@@ -46,13 +60,16 @@ router.post(
 );
 
 router.delete(
-  "/item",
+  "/item/:productId",
   validateJWT,
   async (req: ExtendedRequest, res: Response) => {
     try {
       const userId = req.user;
-      const { itemId } = await req.body;
-      const { data, statusCode } = await removeItemFromCart({ userId, itemId });
+      const { productId } = req.params;
+      const { data, statusCode } = await removeItemFromCart({
+        userId,
+        productId,
+      });
       res.status(statusCode).json({ data });
     } catch (error) {
       console.error("cart/item DELETE route error:", error); // Log the error for debugging
@@ -80,19 +97,6 @@ router.put(
     }
   }
 );
-
-router.delete("/", validateJWT, async (req: ExtendedRequest, res: Response) => {
-  try {
-    const userId = req.user;
-    const { statusCode, data } = await clearCartForUser({
-      userId,
-    });
-    res.status(statusCode).json({ data });
-  } catch (error: any) {
-    console.log("/cart DELETE error", error.message);
-    res.status(500).json({ message: "Something went wrong!" });
-  }
-});
 
 router.post(
   "/checkout",

@@ -1,6 +1,6 @@
 import productModel from "../models/productModel";
 import userModel from "../models/userModel";
-import cartModel from "../models/cartModel";
+import cartModel, { ICartItem } from "../models/cartModel";
 import orderModel, { IOrderItem } from "../models/orderModel";
 
 interface CreateNewCartProp {
@@ -82,10 +82,12 @@ export async function addItemToCart({
     if (existsItemInCart) {
       existsItemInCart.quantity += quantity;
     } else {
-      const newItem = {
+      const newItem: ICartItem = {
         productId: itemId,
         unitPrice: product.price,
         quantity,
+        productImage: product.image,
+        productName: product.title,
       };
       cart.items.push(newItem);
     }
@@ -107,11 +109,11 @@ export async function addItemToCart({
 
 interface RemoveItemFromCart {
   userId: string;
-  itemId: any;
+  productId: any;
 }
 export async function removeItemFromCart({
   userId,
-  itemId,
+  productId,
 }: RemoveItemFromCart) {
   try {
     let cart = await getActiveCart({ userId });
@@ -119,7 +121,7 @@ export async function removeItemFromCart({
       return { data: "Some wrong in fetching cart", statusCode: 400 };
     }
     const existsItemInCart = cart.items.find(
-      (p) => p.productId.toString() === itemId
+      (p) => p.productId.toString() === productId
     );
     if (!existsItemInCart) {
       return {
@@ -129,7 +131,7 @@ export async function removeItemFromCart({
     }
 
     cart.items = cart.items.filter((p) => {
-      return p.productId.toString() !== itemId;
+      return p.productId.toString() !== productId;
     });
 
     // Recalculate total price

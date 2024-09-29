@@ -1,8 +1,10 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define the Cart Items Interface
-interface ICartItem {
+export interface ICartItem {
   productId: mongoose.Schema.Types.ObjectId;
+  productName: string;
+  productImage: string;
   unitPrice: number;
   quantity: number;
 }
@@ -23,6 +25,8 @@ const cartItemsSchema: Schema<ICartItem> = new mongoose.Schema({
     required: true,
   },
   unitPrice: { type: Number, required: true },
+  productImage: { type: String, required: true },
+  productName: { type: String, required: true },
   quantity: { type: Number, default: 1 },
 });
 
