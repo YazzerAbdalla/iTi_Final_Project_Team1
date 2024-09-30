@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { BACKEND_URL } from '../env';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+import { NotificationService } from './notification.service';
+import { BACKEND_URL } from '../../env';
 
 interface LoginProps {
   email: string;
@@ -24,7 +26,10 @@ export class AuthService {
     string | null
   >(null);
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) {
     // Initialize email from localStorage if available
     const savedEmail = localStorage.getItem('email');
     if (savedEmail) {
@@ -46,6 +51,10 @@ export class AuthService {
           this.emailSubject.next(email); // Update the BehaviorSubject with the new email
           localStorage.setItem('email', email); // Save email in localStorage
         }
+      }),
+      catchError((error) => {
+        this.notificationService.showError('Login failed. Please try again.'); // Show error notification
+        return throwError(() => error); // Rethrow the error
       })
     );
   }
@@ -71,6 +80,10 @@ export class AuthService {
             this.emailSubject.next(email); // Update the BehaviorSubject with the new email
             localStorage.setItem('email', email); // Save email in localStorage
           }
+        }),
+        catchError((error) => {
+          this.notificationService.showError('Login failed. Please try again.'); // Show error notification
+          return throwError(() => error); // Rethrow the error
         })
       );
   }

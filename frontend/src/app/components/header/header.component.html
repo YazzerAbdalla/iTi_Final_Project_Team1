@@ -58,9 +58,13 @@
       <input
         type="text"
         placeholder="Search products..."
+        [(ngModel)]="searchQuery"
         class="border border-gray-300 rounded-full px-4 py-2 w-full md:w-80"
       />
-      <button class="absolute right-2 top-1/2 transform -translate-y-1/2">
+      <button
+        (click)="onSearch() "
+        class="absolute right-2 top-1/2 transform -translate-y-1/2"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
@@ -125,10 +129,14 @@
     <div class="relative w-full">
       <input
         type="text"
+        [(ngModel)]="searchQuery"
         placeholder="Search products..."
         class="border border-gray-300 rounded-full px-4 py-2 w-full"
       />
-      <button class="absolute right-2 top-1/2 transform -translate-y-1/2">
+      <button
+        (click)="onSearch()"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"

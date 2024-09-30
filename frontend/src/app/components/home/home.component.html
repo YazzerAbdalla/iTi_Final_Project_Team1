@@ -55,8 +55,11 @@
     <!-- Product Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <!-- Product Card -->
-
-      @for(product of products ; track $index){
+      @if(!products || products.length == 0){
+      <div class="w-full flex justify-center">
+        <p>There no products.</p>
+      </div>
+      } @for(product of products ; track $index){
       <a
         [routerLink]="['/product/', product.id]"
         class="product-card border rounded-lg p-4 shadow-md"
