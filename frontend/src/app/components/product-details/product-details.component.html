@@ -34,6 +34,9 @@
       >
         Add to Cart
       </button>
+      @if(!isUserLoggedIn){
+      <p class="text-red-500">Please log in to add items to your cart.</p>
+      }
     </div>
   </div>
 </div>
