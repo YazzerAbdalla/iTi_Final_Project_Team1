@@ -55,38 +55,27 @@
     <!-- Product Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <!-- Product Card -->
-      <div class="product-card border rounded-lg p-4 shadow-md">
-        <img
-          src="https://via.placeholder.com/200x200"
-          alt="Product"
-          class="w-full h-auto object-cover"
-        />
-        <h3 class="text-lg font-bold mt-4">Product Name</h3>
-        <p class="text-gray-600">Product Description</p>
-        <p class="font-bold text-green-500">$99.99</p>
-        <button
-          class="bg-green-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-green-600"
-        >
-          Add to Cart
-        </button>
-      </div>
 
-      <!-- Repeat the Product Card for more products -->
-      <div class="product-card border rounded-lg p-4 shadow-md">
+      @for(product of products ; track $index){
+      <a
+        [routerLink]="['/product/', product.id]"
+        class="product-card border rounded-lg p-4 shadow-md"
+      >
         <img
-          src="https://via.placeholder.com/200x200"
+          [src]="product.image"
           alt="Product"
           class="w-full h-auto object-cover"
         />
-        <h3 class="text-lg font-bold mt-4">Product Name</h3>
-        <p class="text-gray-600">Product Description</p>
-        <p class="font-bold text-green-500">$99.99</p>
+        <h3 class="text-lg font-bold mt-4">{{ product.title }}</h3>
+        <p class="text-gray-600 line-clamp-3">{{ product.description }}</p>
+        <p class="font-bold text-green-500">{{ product.price }}</p>
         <button
           class="bg-green-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-green-600"
         >
           Add to Cart
         </button>
-      </div>
+      </a>
+      }
 
       <!-- Add more products as necessary -->
     </div>

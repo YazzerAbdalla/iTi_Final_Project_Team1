@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators'; // Import catchError for error handling
 import { BACKEND_URL } from '../env';
 import { Cart } from '../types/Cart';
+import { Product } from '../types/Product';
 
 export interface CartItem {
   productId: string; // Assuming this corresponds to your product's ID
@@ -13,13 +14,16 @@ export interface CartItem {
   quantity: number;
   _id: string; // MongoDB Object ID
 }
+interface AddToCart {
+  id: string;
+  quantity: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
   private cartItems: CartItem[] = [];
-  private cart: Cart | null = null;
   private cartItemsSubject = new BehaviorSubject<CartItem[]>(this.cartItems);
   private cartLengthSubject = new BehaviorSubject<number>(0);
 
@@ -61,16 +65,16 @@ export class CartService {
   }
 
   // Add an item to the cart
-  addToCart(item: CartItem): void {
+  addToCart({ id, quantity }: AddToCart): void {
     // Prepare the payload for the HTTP request
     const payload = {
-      productId: item.productId,
-      quantity: item.quantity,
+      itemId: id,
+      quantity: quantity,
     };
 
     // Make an HTTP POST request to add the item to the cart on the backend
     this.http
-      .post(`${BACKEND_URL}/cart/item`, payload, {
+      .post<Cart>(`${BACKEND_URL}/cart/item`, payload, {
         headers: {
           authorization: `Bearer ${localStorage.getItem('authorization')}`,
         },
@@ -78,13 +82,11 @@ export class CartService {
       .subscribe(
         (response: any) => {
           // Update cartItems based on the response
-          const existingItem = this.cartItems.find(
-            (i) => i.productId === item.productId
-          );
+          const existingItem = this.cartItems.find((i) => i.productId === id);
           if (existingItem) {
-            existingItem.quantity += item.quantity; // Increment quantity if item already exists
+            existingItem.quantity += quantity; // Increment quantity if item already exists
           } else {
-            this.cartItems.push(item); // Add new item to cart
+            this.cartItems = response.data.items; // Add new item to cart
           }
 
           // Notify observers of the cart items and length

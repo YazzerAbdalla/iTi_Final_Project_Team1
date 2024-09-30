@@ -43,6 +43,7 @@ export class CartComponent implements OnInit {
       (acc, item) => acc + item.unitPrice * item.quantity,
       0
     );
+    this.totalAmount = Math.floor(this.totalAmount);
   }
 
   removeItem(productId: string) {
