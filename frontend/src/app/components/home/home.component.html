@@ -35,20 +35,39 @@
       <h2 class="text-2xl font-bold">Our Products</h2>
       <div class="flex gap-4">
         <button
-          class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+          (click)="sortByHighPrice()"
+          [ngClass]="{
+            'bg-green-500 text-white': activeSort === 'price',
+            'bg-gray-200 text-gray-700': activeSort !== 'price'
+          }"
+          class="px-4 py-2 rounded hover:bg-gray-300"
         >
           Sort by Price
         </button>
+
         <button
-          class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+          (click)="sortByPopularity()"
+          [ngClass]="{
+            'bg-green-500 text-white': activeSort === 'popularity',
+            'bg-gray-200 text-gray-700': activeSort !== 'popularity'
+          }"
+          class="px-4 py-2 rounded hover:bg-gray-300"
         >
           Sort by Popularity
         </button>
-        <button
+
+        <select
+          [(ngModel)]="selectedCategory"
+          (change)="filterByCategory()"
           class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
         >
-          Filter
-        </button>
+          <option value="all">All</option>
+          @for(category of categories ; track $index){
+          <option [value]="category">
+            {{ category }}
+          </option>
+          }
+        </select>
       </div>
     </div>
 
@@ -59,7 +78,7 @@
       <div class="w-full flex justify-center">
         <p>There no products.</p>
       </div>
-      } @for(product of products ; track $index){
+      } @for(product of filteredProducts ; track $index){
       <a
         [routerLink]="['/product/', product.id]"
         class="product-card border rounded-lg p-4 shadow-md"
