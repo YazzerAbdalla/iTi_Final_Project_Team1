@@ -149,4 +149,38 @@ export class CartService {
         }
       );
   }
+
+  // New method to update an item in the cart
+  updateCartItem(item: CartItem): void {
+    const payload = {
+      itemId: item.productId,
+      quantity: item.quantity,
+    };
+
+    this.http
+      .put<Cart>(`${BACKEND_URL}/cart/item`, payload, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('authorization')}`,
+        },
+      })
+      .subscribe(
+        (response: any) => {
+          // Update the cart item locally
+          const index = this.cartItems.findIndex(
+            (i) => i.productId === item.productId
+          );
+          if (index > -1) {
+            this.cartItems[index].quantity = item.quantity; // Update the quantity
+          }
+
+          this.cartItemsSubject.next(this.cartItems);
+          this.cartLengthSubject.next(this.cartItems.length);
+          this.notificationService.showSuccess('Item updated successfuly.');
+        },
+        (error) => {
+          this.notificationService.showError('Error updating item in cart.');
+          return throwError(() => error);
+        }
+      );
+  }
 }

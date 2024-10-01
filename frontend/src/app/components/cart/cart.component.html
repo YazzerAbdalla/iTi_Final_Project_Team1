@@ -5,11 +5,11 @@
     <p class="text-red-500">You must be logged in to continue shopping.</p>
     <a routerLink="/login" class="text-green-500 hover:underline">Login</a>
   </div>
-  }@else{ @if(cartItems.length === 0 ){
+  } @else { @if(cartItems.length === 0 ){
   <div class="text-center text-gray-600">
     <p>Your cart is empty!</p>
   </div>
-  } @for(item of cartItems ; track $index){
+  } @for(item of cartItems ; track $index) {
   <div class="bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-md">
     <div class="flex justify-between items-center">
       <div class="flex flex-col justify-center">
@@ -21,7 +21,14 @@
 
         <h3 class="font-bold text-lg">{{ item.productName }}</h3>
         <p class="text-gray-600">
-          Price: ${{ item.unitPrice }} x {{ item.quantity }}
+          Price: ${{ item.unitPrice }} x
+          <input
+            type="number"
+            [(ngModel)]="item.quantity"
+            min="1"
+            (change)="updateQuantity(item, item.quantity)"
+            class="w-16 border rounded"
+          />
         </p>
       </div>
       <button
@@ -32,7 +39,6 @@
       </button>
     </div>
   </div>
-
   } @if ( cartItems.length > 0 ) {
   <div class="mt-4">
     <h3 class="font-bold text-lg">Total: ${{ totalAmount }}</h3>

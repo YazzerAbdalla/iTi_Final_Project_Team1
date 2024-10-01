@@ -36,8 +36,7 @@ export class ProductService {
       .get<ProductResponse>(`${BACKEND_URL}/product`)
       .pipe(
         catchError((error) => {
-          console.log('Error fetching products', error.message);
-          // Show error notification
+          this.notificationService.showError('Error fetching products.'); // Show error notification
           return throwError(() => error);
         })
       )
@@ -56,7 +55,7 @@ export class ProductService {
         .get<{ data: Product }>(`${BACKEND_URL}/product/${productId}`)
         .pipe(
           catchError((error) => {
-            this.notificationService.showError('Error fetching products.'); // Show error notification
+            this.notificationService.showError('Error fetching product.'); // Show error notification
             return throwError(() => error);
           })
         )
