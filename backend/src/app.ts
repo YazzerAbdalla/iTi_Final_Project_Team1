@@ -10,6 +10,7 @@ import orderController from "./controllers/orderController";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
@@ -27,6 +28,6 @@ app.use(productController);
 app.use("/cart", cartController);
 app.use(orderController);
 
-app.listen(3001, () => {
-  console.log("Server working successfully on port 3001");
+app.listen(PORT, () => {
+  console.log("Server working successfully on port 3000");
 });
