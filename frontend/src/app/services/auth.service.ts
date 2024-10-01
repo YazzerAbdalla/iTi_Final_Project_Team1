@@ -82,7 +82,9 @@ export class AuthService {
           }
         }),
         catchError((error) => {
-          this.notificationService.showError('Login failed. Please try again.'); // Show error notification
+          this.notificationService.showError(
+            'Register failed. Please try again.'
+          ); // Show error notification
           return throwError(() => error); // Rethrow the error
         })
       );
