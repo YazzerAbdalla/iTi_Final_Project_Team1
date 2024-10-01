@@ -202,6 +202,9 @@ export async function checkout({ userId }: Checkout) {
       return { data: "Some wrong in fetching cart", statusCode: 400 };
     }
     let orderItems: IOrderItem[] = [];
+    if (cart.items.length === 0) {
+      return { data: "There is no items in the cart", statusCode: 400 };
+    }
     for (const item of cart.items) {
       const product = await productModel.findById(item.productId);
       if (!product) {

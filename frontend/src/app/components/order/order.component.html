@@ -7,25 +7,21 @@
   <div class="text-center text-gray-600">
     <p>No orders found!</p>
   </div>
-  } @for(order of orders ; track $index){
-  <div class="bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-md">
-    <h3 class="font-bold text-lg mb-2">Order ID: {{ order.id }}</h3>
-    <p class="text-gray-600 mb-2">Date: {{ order.date }}</p>
-
-    @for(item of order.items; track $index){
-    <div class="flex items-center mb-2">
-      <img
-        [src]="item.imageUrl"
-        alt="{{ item.name }}"
-        class="w-16 h-16 object-cover rounded mr-4"
-      />
-      <div>
-        <h4 class="font-semibold">{{ item.name }}</h4>
-        <p>Price: ${{ item.price }} x {{ item.quantity }}</p>
-      </div>
+  } @for(order of orders ; track $index){ @for(item of order.items; track
+  $index){
+  <div class="flex items-center mb-2">
+    <img
+      [src]="item.productImage"
+      alt="{{ item.productName }}"
+      class="w-16 h-16 object-cover rounded mr-4"
+    />
+    <div>
+      <h4 class="font-semibold">{{ item.productName }}</h4>
+      <p>Price: ${{ item.productPrice }} x {{ item.productQuantity }}</p>
     </div>
-    }
-    <h4 class="font-bold mt-2">Total Price: ${{ order.totalPrice }}</h4>
   </div>
+  }
+  <h4 class="font-bold mt-2">Total Price: ${{ order.totalPrice }}</h4>
+  <p class="text-gray-600 mb-2">Date: {{ order.date }}</p>
   }
 </div>
